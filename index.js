@@ -1,8 +1,17 @@
 import Vorpal from 'vorpal';
+import moment from 'moment';
+import hours from './hours';
+
+const fromDate = moment(hours.from);
+const toDate = moment(hours.to);
+
+
 
 const banner = 'Welcome to the standalone Vorpal server.';
 const delimiter = 'hours-cli$';
 const cli = new Vorpal();
+
+
 
 const start = (context) => {
   return new Promise((resolve, reject) => {
