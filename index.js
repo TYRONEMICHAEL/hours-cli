@@ -2,10 +2,14 @@ import Vorpal from 'vorpal';
 import credentials from './credentials';
 import hours from './hours';
 import getDates from './lib/getDates';
-import hoursService from './lib/hoursService';
+import HoursService from './lib/hoursService';
+
+const hoursService = HoursService({
+  username: credentials.tangentUsername,
+  password: credentials.tangentPassword
+});
 
 hoursService
-  .getAccessToken(credentials.tangentUsername, credentials.tangentPassword)
   .then((body) => console.log(body))
   .catch((err) => console.log(err));
 
