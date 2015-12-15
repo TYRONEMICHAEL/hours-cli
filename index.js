@@ -10,7 +10,7 @@ const hoursService = HoursService({
 });
 
 hoursService
-  .then((body) => console.log(body))
+  .then((body) => console.log(body.token))
   .catch((err) => console.log(err));
 
 
