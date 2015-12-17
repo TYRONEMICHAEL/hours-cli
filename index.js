@@ -1,34 +1,49 @@
 import Vorpal from 'vorpal';
-import credentials from './credentials';
-import hours from './hours';
+import config from './config';
 import getDates from './utils/getDates';
 import TokenService from './lib/TokenService';
 import UserService from './lib/UserService';
 import ProjectService from './lib/ProjectService';
+import GithubService from './lib/GithubService';
 import Store from './lib/Store';
+import Logger from './lib/Logger';
+
+let userService;
+let projectService;
 
 const store = Store();
-store.exec('setUser', { 'name': 'Tyrone' });
-console.log(store.reducers);
+const cli = new Vorpal();
+const delimiter = 'hours-cli$';
+const logger = Logger();
+const tokenService = TokenService({
+  username: config.tangentUsername,
+  password: config.tangentPassword
+});
+const githubService = GithubService({
+  username: config.githubUsername,
+  password: config.githubPassword
+});
 
-// const cli = new Vorpal();
-// const delimiter = 'hours-cli$';
-// const tokenService = TokenService({
-//   username: credentials.tangentUsername,
-//   password: credentials.tangentPassword
-// });
-//
-// let userService;
-// let projectService;
-//
+githubService.getCommitsForBranch('flysaa-ios', 'swift-2')
+  .then(console.log)
+  .catch(console.log);
+
 // tokenService.then((data) => {
 //     const token = data.token;
+//     logger.log('Logging you in...');
 //     userService = UserService({ token: token });
 //     projectService = ProjectService({ token: token });
 //     return userService.getUser();
 //   })
-//   .then((user) => projectService.getTasks(user.id))
-//   .then(console.log)
+//   .then((user) => {
+//     store.exec('setUser', user);
+//     logger.log(`Logged in successfully. Welcome ${user.first_name}.`);
+//     return projectService.getTasks(user.id);
+//   })
+//   .then((projects) => {
+//     store.exec('setProjects', projects, Object.keys(config.projectToRepo));
+//     logger.log(`We found and linked ${store.getState().projects.length} projects to your Github account.`);
+//   })
 //   .catch((err) => console.log(err));
 
 // cli
