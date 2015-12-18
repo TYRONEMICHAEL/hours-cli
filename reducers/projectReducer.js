@@ -1,10 +1,20 @@
 const projectReducer = {
   setProjects(state, projects, linkedProjects) {
+    const projectsHash = {};
+    const repoToProjectIndex = {};
+    const linkedProjectsKeys = Object.keys(linkedProjects);
+
     const filteredProjects = projects.filter((project) => {
       const projectTitle = `${project.project_data.title} - ${project.title}`;
-      return linkedProjects.indexOf(projectTitle) > -1;
+      return linkedProjectsKeys.indexOf(projectTitle) > -1;
     });
-    return Object.assign({}, state, { projects: filteredProjects });
+
+    filteredProjects.forEach((project, index) => {
+      const projectTitle = `${project.project_data.title} - ${project.title}`;
+      repoToProjectIndex[linkedProjects[projectTitle]] = index;
+    });
+
+    return Object.assign({}, state, { projects: { data: filteredProjects, repoToProjectIndex } });
   }
 };
 

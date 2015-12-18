@@ -15,52 +15,55 @@ const store = Store();
 const cli = new Vorpal();
 const delimiter = 'hours-cli$';
 const logger = Logger();
+const projectToRepo = config.projectToRepo;
+const repoNames = Object.keys(projectToRepo).map((key) => projectToRepo[key]);
+
 const tokenService = TokenService({
   username: config.tangentUsername,
   password: config.tangentPassword
 });
+
 const githubService = GithubService({
   username: config.githubUsername,
   password: config.githubPassword
 });
 
-githubService.getCommitsForBranch('flysaa-ios', 'swift-2')
-  .then(console.log)
-  .catch(console.log);
+cli
+  .command('start', 'Start submitting your hours')
+  .action(function(args, cb) {
+    return tokenService.then((data) => {
+        const token = data.token;
+        logger.log('Logging you in...');
+        userService = UserService({ token: token });
+        projectService = ProjectService({ token: token });
+        return userService.getUser();
+      })
+      .then((user) => {
+        store.exec('setUser', user);
+        logger.log(`Logged in successfully. Welcome ${user.first_name}.`);
+        return projectService.getTasks(user.id);
+      })
+      .then((projects) => {
+        let promiseArr = [];
+        let state;
 
-// tokenService.then((data) => {
-//     const token = data.token;
-//     logger.log('Logging you in...');
-//     userService = UserService({ token: token });
-//     projectService = ProjectService({ token: token });
-//     return userService.getUser();
-//   })
-//   .then((user) => {
-//     store.exec('setUser', user);
-//     logger.log(`Logged in successfully. Welcome ${user.first_name}.`);
-//     return projectService.getTasks(user.id);
-//   })
-//   .then((projects) => {
-//     store.exec('setProjects', projects, Object.keys(config.projectToRepo));
-//     logger.log(`We found and linked ${store.getState().projects.length} projects to your Github account.`);
-//   })
-//   .catch((err) => console.log(err));
+        store.exec('setProjects', projects, projectToRepo);
+        state = store.getState();
+        logger.log(`We found and linked ${Object.keys(store.getState().projects).length} projects to your Github account.`);
+        repoNames.forEach((repo) => promiseArr.push(githubService.getBranchesForRepo(repo)));
+        return Promise.all(promiseArr);
+      })
+      .then((repos) => {
+        repos.forEach((branches, index) => {
+          logger.log(`Found ${branches.length} branches for ${repoNames[index]}.`);
+        });
+      })
+      .catch((err) => console.log(err));
+  });
 
-// cli
-//   .command('start', 'Start submitting your hours')
-//   .action(function(args, cb) {
-//     return tokenService.then((data) => {
-//         userService = UserService({ token: data.token });
-//         return userService.getUser();
-//       }).then(console.log)
-//       .catch((err) => console.log(err));
-//   });
-//
-// cli
-//   .delimiter('hours-cli$:')
-//   .show()
-//   .log('Welcome to the Tangent Solution CLI hours service.');
-//
-// cli.exec('help');
-// cli.exec('start');
-// cli.exec('exit');
+cli
+  .delimiter('hours-cli$:')
+  .show()
+  .log('Welcome to the Tangent Solution CLI hours service.');
+
+cli.exec('help');

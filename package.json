@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "clear && babel-node index.js",
-    "dev": "chokidar 'index.js' 'lib/*.js' --command 'npm run start --silent' --initial 'npm run start'",
+    "dev": "chokidar 'index.js' 'lib/*.js' 'reducers/*.js' --command 'npm run start --silent' --initial 'npm run start'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "TYRONEMICHAEL <tyronemichael@gmail.com>",
