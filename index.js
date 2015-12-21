@@ -5,11 +5,13 @@ import TokenService from './lib/TokenService';
 import UserService from './lib/UserService';
 import ProjectService from './lib/ProjectService';
 import GithubService from './lib/GithubService';
+import HourService from './lib/HourService';
 import Store from './lib/Store';
 import Logger from './lib/Logger';
 
 let userService;
 let projectService;
+let hourService;
 
 const store = Store();
 const cli = new Vorpal();
@@ -37,6 +39,7 @@ const getData = function () {
         logger.showLoader('Logging you in...');
         userService = UserService({ token: token });
         projectService = ProjectService({ token: token });
+        hourService = HourService({ token: token });
         return userService.getUser();
       })
       .then((user) => {
@@ -110,9 +113,22 @@ const getData = function () {
   return promise;
 };
 
+const submitData = function(entries) {
+  let promiseArr = [];
 
+  Object.keys(entries).forEach((key) => {
+    Object.keys(entries[key]).forEach((projectKey) => {
+      promiseArr.push(hourService.addEntry(entries[key][projectKey]));
+    });
+  });
+
+  return Promise.all(promiseArr);
+};
+
+// Comment this out when deving & can call getData() directly instead.
+// Otherwise the REPL will not exit properly and still run in the bg.
 cli
-  .command('start', 'Start submitting your hours')
+  .command('start', 'Start capturing your hours')
   .action(function(args, cb) {
     getData().then(() => {
       this.prompt({
@@ -123,16 +139,36 @@ cli
       }, function(result){
         if (result.continue) {
           logger.highlight(`Starting the submission of your hours.`);
-          cb();
-        } else {
-          logger.log('Canceled out of submission.');
-          cb();
+          logger.showLoader('Submitting your hours...');
+
+          return submitData(store.getState().entries)
+            .then((res) => {
+              logger.stopLoader();
+              logger.success(`Submitted ${res.length} entries.`);
+              cb();
+            })
+            .catch((err) => {
+              logger.stopLoader();
+              logger.error(err);
+              cb();
+            });
         }
+
+        logger.log('Canceled out of submission.');
+        return cb();
       });
     }).catch((err) => {
       logger.stopLoader();
       logger.error(err);
+      cb();
     });
+  });
+
+cli
+  .command('submit', 'Submit all captured hours')
+  .action((args, cb) => {
+    logger.log('This feature has not been implemented yet.');
+    cb();
   });
 
 cli

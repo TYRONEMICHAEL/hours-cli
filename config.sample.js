@@ -4,12 +4,13 @@ export default {
   githubUsername: 'TYRONEMICHAEL',
   githubPassword: '*********',
 
-  from: '2015-11-01',
-  to: '2015-11-05',
+  from: '2015-11-30', // Anything after this date
+  until: '2015-12-20', // Anything before this date
 
   projectToRepo: {
     'High Branching - Development':  'HigherBranches-iOS',
     'FlySAA Mobile Development - iOS Development': 'FlySAA-iOS',
+    'HelloCrowd - Development': 'HelloCrowd-MTN'
   },
 
   defaultHours: 8

@@ -8,16 +8,18 @@ const entryReducer = {
     const newEntry = function (key, commit) {
       const newEntry = {};
       const commits = {};
+      const projectIndex = state.projects.repoToProjectIndex[commit.repo];
+      const project = state.projects.data[projectIndex];
 
       commits[commit.sha] = commit;
 
       newEntry[commit.repo] = {
         id: null,
         user: state.user.id,
-        project_id: 0,
-        project_task_id: 0,
+        project_id: project.project_data.pk,
+        project_task_id: project.id,
         status: 'Open',
-        day: commit.date,
+        day: key,
         start_time: '08:00:00',
         end_time: '17:00:00',
         hours: commit.hours,
