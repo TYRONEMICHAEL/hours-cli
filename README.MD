@@ -3,7 +3,7 @@ Pull your commits from your Github Tangent projects to submit for your hours.
 The commits are are automatically taken and merged as comments.
 
 ## Video
-![overview](http://www.gfycat.com/FrayedDisastrousFossa)
+![](overview.gif)
 
 ## How it works.
 Let's say you have forgotten to submit your hours for the last two weeks (which you probably shouldn't be forgetting). The simple program will pull your commits from the last two weeks, add them as a commit message and submit the hours for you automatically. The program looks at each of your projects and merges the commits for the days specified.
