@@ -97,6 +97,10 @@ const getData = function () {
 
         logger.highlight(`The following commits will be submitted for your hours:`);
 
+        if(!store.getState().entries) {
+          return reject('No entries found to submit. Exiting.');
+        }
+
         Object.keys(store.getState().entries).forEach((entryKey) => {
           let entry = store.getState().entries[entryKey];
           Object.keys(entry).forEach((key) => {
