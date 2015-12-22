@@ -2,7 +2,7 @@
 Pull your commits from your Github Tangent projects to submit for your hours.
 The commits are are automatically taken and merged as comments.
 
-## Video
+## Screenshots
 ![](overview.gif)
 
 ## How it works.
