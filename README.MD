@@ -23,8 +23,8 @@ Tedious and error prone, so why not automate this? And that is how this project 
 * Duplicate and rename `config.sample.js` to `config.js`
 * Enter your credentials in `config.js`
 * Edit the `from` (entries after this day) and `until` (entries before this day) fields in the format `{YYYY-MM-DD}`
-* Enter your repos in the following format: `{ProjectName}:{RepoName}`.
-* Hours are set to a default of `9` hours. Change as you wish.
+* Enter your repos in the following format: `{ProjectName}:{RepoName}`
+* Hours are set to a default of `9` hours. Change as you wish
 * Run `npm start` to start submitting your hours
 
 ## Limitations / TODOS
