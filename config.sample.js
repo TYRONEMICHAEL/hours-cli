@@ -4,8 +4,8 @@ export default {
   githubUsername: 'TYRONEMICHAEL',
   githubPassword: '*********',
 
-  from: '2015-11-30', // Anything after this date
-  to: '2015-12-20', // Anything before this date
+  from: '2015-11-30',
+  to: '2015-12-20', 
 
   projectToRepo: {
     'High Branching - Development':  'HigherBranches-iOS',
