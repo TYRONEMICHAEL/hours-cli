@@ -72,7 +72,7 @@ const getData = function () {
               repo: repoNames[index],
               branch: branch.name,
               from: config.from,
-              until: config.until
+              until: config.to
             }));
           });
         });
@@ -90,7 +90,7 @@ const getData = function () {
               sha: commitObj.sha,
               message: commitObj.commit.message,
               date: commitObj.commit.committer.date,
-              hours: config.hours
+              hours: config.defaultHours
             });
           });
         });
