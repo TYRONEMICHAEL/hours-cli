@@ -15,7 +15,7 @@ I usually find myself forgetting to submit my hours. My workflow for submitting 
 * Copy and paste the commits in as comments
 * Repeat
 
-Tedious and error prone, so why not automate this? And that is how this project was born. It does all the above for you with minimum effort.
+Tedious and error prone, so why not automate this? 
 
 ## How to?
 * Clone project
