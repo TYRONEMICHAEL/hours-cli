@@ -5,7 +5,7 @@ export default {
   githubPassword: '*********',
 
   from: '2015-11-30', // Anything after this date
-  until: '2015-12-20', // Anything before this date
+  to: '2015-12-20', // Anything before this date
 
   projectToRepo: {
     'High Branching - Development':  'HigherBranches-iOS',
