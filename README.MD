@@ -5,7 +5,7 @@ The commits are are automatically taken and merged as comments.
 ## Screenshots
 ![](overview.gif)
 
-## How it works.
+## How it started
 I usually find myself forgetting to submit my hours. My workflow for submitting hours is the following:
 * Open the web interface and add entry
 * Pick a project
@@ -28,6 +28,7 @@ Tedious and error prone, so why not automate this? And that is how this project 
 * Run `npm start` to start submitting your hours
 
 ## Limitations / TODOS
+* Create Docker image
 * Tests of course :)
 * If the program finds multiple projects worked on the same day, the hours are divided evenly. So if your defaultHours is 8 hours and you worked on two different projects, your entries will be submitted as two different entries at 4 hours each
 * Submit hours through the CLI
